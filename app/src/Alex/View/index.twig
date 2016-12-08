@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Hotels</title>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.amber-orange.min.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+</head>
+<body>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title mdl-color-text--white">Hotel</span>
+            <div class="mdl-layout-spacer"></div>
+            <nav class="mdl-navigation mdl-layout--large-screen-only">
+                <a class="mdl-button mdl-js-button mdl-button--primary mdl-color-text--white" href="/">Home</a>
+                <a class="mdl-button mdl-js-button mdl-button--primary mdl-color-text--white" href="/parse">Parse</a>
+            </nav>
+        </div>
+    </header>
+    <main class="mdl-layout__content">
+        <div class="page-content">
+            <div class="content-grid mdl-grid">
+                {% if hotels == false %}
+                <div style="margin: 0 auto"
+                     class="mdl-card mdl-cell mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-shadow--6dp">
+                    <div class="mdl-card__title">
+                        <h2 class="mdl-card__title-text mdl-color-text--amber-500">Нет отелей в базе. Для парсинга
+                            нажмите кнопку 'parse'.</h2>
+                    </div>
+                </div>
+                {% else %}
+                <div style="margin: 0 auto"
+                     class="mdl-card mdl-cell--7-col mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-shadow--6dp">
+                    <div class="mdl-card__title">
+                        <h2 class="mdl-card__title-text mdl-color-text--amber-500">{{ hotels["name"] }}</h2>
+                    </div>
+                    <div class="mdl-card__supporting-text">
+                        {{ hotels["address"] }}
+                    </div>
+                    {% if hotels["images"] %}
+                        <div class="mdl-card__media mdl-color--white" id="hotelImage"
+                             style="background: url('{{ hotels["images"][0]["path"] }}') no-repeat center; height: 460px;">
+                        </div>
+                        <div class="mdl-card__supporting-text" style="margin: 0 auto;">
+                            {% for image in hotels["images"] %}
+                                <span style="background: url('{{ image["path"] }}') 100% 100% no-repeat; background-size: cover; cursor: pointer; width: 40px; height: 40px; display: inline-block;"
+                                      onclick="showImage(this)">
+                        </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% if hotels["desc_titel"] %}
+                        <div class="mdl-card__title">
+                            <h2 class="mdl-card__title-text mdl-color-text--grey-600">{{ hotels["desc_titel"] }}</h2>
+                        </div>
+                    {% endif %}
+                    {% if hotels["desc"] %}
+                        <div class="mdl-card__supporting-text">
+                            {{ hotels["desc"]| raw }}
+                        </div>
+                    {% endif %}
+                    {% if hotels["desc_geo"] %}
+                        <div class="mdl-card__supporting-text">
+                            {{ hotels["desc_geo"] }}
+                        </div>
+                    {% endif %}
+                    {% if hotels["desc_review"] %}
+                        <div class="mdl-card__supporting-text">
+                            {{ hotels["desc_review"] }}
+                        </div>
+                    {% endif %}
+                    {% if hotels["desc_review"] %}
+                        <div class="mdl-card__supporting-text">
+                            {{ hotels["desc_lang"] }}
+                        </div>
+                    {% endif %}
+                    {% if hotels['facilities'] %}
+                        <div class="mdl-card__actions mdl-card--border">
+
+                        </div>
+                        <div class="mdl-card__supporting-text" style="margin: 0 auto">
+                            {% for facility in hotels['facilities'] %}
+                                <span class="mdl-chip mdl-color--amber-300">
+                                    <span class="mdl-chip__text mdl-color-text--white">{{ facility['name'] }}</span>
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script>
+    function showImage(image) {
+        hotelImage.style.backgroundImage = image.style.backgroundImage;
+    }
+</script>
+</body>
+</html>
+
